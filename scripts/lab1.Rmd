@@ -1,0 +1,21 @@
+---
+title: "lab1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(rio)
+library(tidyverse)
+library(here)
+
+
+```
+```{r}
+twitstats <- readRDS(here("data", "rstats_tweets.rds")) %>% 
+	as.data.frame()
+twitstats
+```
+
+
