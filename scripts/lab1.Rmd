@@ -1,7 +1,7 @@
 ---
 title: "Lab 1"
 output: html_document
-authors: Amy, Ksenia, and Rebecca
+author: Amy, Ksenia, and Rebecca
 ---
 
 ```{r setup, include=FALSE}
@@ -20,13 +20,19 @@ twitstats
 ```
 
 ```{r initial-exploration}
-ggplot(twitstats, aes(x = display_text_width)) +
+#ggplot(twitstats, aes(x = display_text_width)) +
 	geom_histogram(fill = "#56B4E9",
 								 color = "white",
 								 alpha = 0.9,
 								 bins = 50)
 
-ggplot(twitstats, aes(x = display_text_width)) +
+#ggplot(twitstats, aes(x = display_text_width)) +
+	geom_histogram(fill = "#56B4E9",
+								 color = "white",
+								 alpha = 0.9,
+								 bins = 35)
+
+#ggplot(twitstats, aes(x = display_text_width)) +
 	geom_histogram(fill = "#56B4E9",
 								 color = "white",
 								 alpha = 0.9,
@@ -48,6 +54,6 @@ ggplot(twitstats, aes(x = display_text_width, y = is_quote)) +
 																fill = "#A9E5C5")
 
 ```
-
+## Binning of 5 is the best for the histogram because it shows the distribution of the data with the fewest bars which makes it easier to understand.
 
 
