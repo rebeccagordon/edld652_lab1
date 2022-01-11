@@ -1,6 +1,7 @@
 ---
-title: "lab1"
+title: "Lab 1"
 output: html_document
+authors: Amy, Ksenia, and Rebecca
 ---
 
 ```{r setup, include=FALSE}
@@ -9,13 +10,44 @@ knitr::opts_chunk$set(echo = TRUE)
 library(rio)
 library(tidyverse)
 library(here)
-
+library(ggridges)
 
 ```
-```{r}
+```{r read-in-data}
 twitstats <- readRDS(here("data", "rstats_tweets.rds")) %>% 
 	as.data.frame()
 twitstats
 ```
+
+```{r initial-exploration}
+ggplot(twitstats, aes(x = display_text_width)) +
+	geom_histogram(fill = "#56B4E9",
+								 color = "white",
+								 alpha = 0.9,
+								 bins = 50)
+
+ggplot(twitstats, aes(x = display_text_width)) +
+	geom_histogram(fill = "#56B4E9",
+								 color = "white",
+								 alpha = 0.9,
+								 bins = 25)
+
+ggplot(twitstats, aes(x = display_text_width)) +
+	geom_histogram(fill = "#56B4E9",
+								 color = "white",
+								 alpha = 0.9,
+								 bins = 5)
+
+ggplot(twitstats, aes(x = display_text_width)) +
+	geom_density(aes(fill = is_quote),
+							 color = "white",
+							 alpha = 0.4)
+
+ggplot(twitstats, aes(x = display_text_width, y = is_quote)) +
+	ggridges::geom_density_ridges(color = "white",
+																fill = "#A9E5C5")
+
+```
+
 
 
