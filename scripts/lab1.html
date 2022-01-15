@@ -174,6 +174,8 @@ pre code {
 
 <div id="initial-exploration" class="section level3">
 <h3>1. Initial exploration</h3>
+<div id="create-histograms-and-density-plots-of-display_text_width.-try-at-least-four-different-binning-methods-and-select-what-you-think-best-represents-the-data-for-each.-provide-a-brief-justification-for-your-decision." class="section level4">
+<h4>Create histograms and density plots of <code>display_text_width</code>. Try at least four different binning methods and select what you think best represents the data for each. Provide a brief justification for your decision.</h4>
 <pre class="r"><code>#ggplot(twitstats, aes(x = display_text_width)) +
 #   geom_histogram(fill = &quot;#56B4E9&quot;,
 #                                color = &quot;white&quot;,
@@ -211,18 +213,19 @@ ggplot(twitstats, aes(x = display_text_width)) +
 <h5>Binning of 5 is the best for the histogram because it shows the distribution of the data with the fewest bars which makes it easier to understand.</h5>
 </div>
 </div>
+</div>
 <div id="look-for-plot" class="section level3">
 <h3>2. Look for “plot”</h3>
 <div id="search-the-text-column-for-the-word-plot." class="section level4">
 <h4>Search the <code>text</code> column for the word “plot.”</h4>
 <p>(Note I played around with different functions and also counting tweets containing “plot” vs. all instances of “plot.”)</p>
-<pre class="r"><code># stringr logical - returns T/F. Evaluates whether the word &quot;plot&quot; is in the tweet. 
+<pre class="r"><code># stringr logical - returns T/F for each row. Evaluates whether the word &quot;plot&quot; is in the tweet. 
 str_detect(twitstats$text, &quot;plot&quot;)
 
-# stringr logical - returns T/F. Evaluates whether the word &quot;plot&quot; as a whole word is in the tweet. 
+# stringr logical - returns T/F for each row (tweet). Evaluates whether the word &quot;plot&quot; as a whole word is in the tweet. 
 str_detect(twitstats$text, &quot;\\bplot\\b&quot;)
 
-# Base R logical - returns T/F. Evaluates whether the word &quot;plot&quot; is in the tweet.
+# Base R logical - returns T/F for each row (tweet). Evaluates whether the word &quot;plot&quot; is in the tweet.
 grepl(&quot;plot&quot;, twitstats$text)
 
 # Base R - returns vector of row #s where tweet contains &quot;plot.&quot; 
@@ -231,10 +234,10 @@ grep(&quot;plot&quot;, twitstats$text)
 # Base R - returns vector of row #s where tweet contains &quot;plot&quot; as a whole word.  
 grep(&quot;\\bplot\\b&quot;, twitstats$text)
 
-# Returns the number of instances of &quot;plot&quot; within each tweet. 
+# For each row (tweet), returns the number of instances of &quot;plot.&quot; 
 str_count(twitstats$text, &quot;plot&quot;)
 
-# Returns the number of instances of &quot;plot&quot; as a whole word within each tweet. 
+# For each row (tweet), returns the number of instances of &quot;plot&quot; as a whole word.
 str_count(twitstats$text, &quot;\\bplot\\b&quot;)</code></pre>
 <pre class="r"><code># Returns the number of tweets containing &quot;plot.&quot;
 sum(str_detect(twitstats$text, &quot;plot&quot;))</code></pre>
@@ -251,14 +254,14 @@ sum(str_count(twitstats$text, &quot;\\bplot\\b&quot;))</code></pre>
 </div>
 <div id="report-the-proportion-of-posts-containing-this-word." class="section level4">
 <h4>Report the proportion of posts containing this word.</h4>
-<pre class="r"><code># Calculate the number of rows (i.e., tweets) in the dataset
+<pre class="r"><code># Calculate the number of rows (i.e., tweets) in the dataset.
 twitstats %&gt;% 
   nrow()</code></pre>
 <pre><code>## [1] 429513</code></pre>
-<pre class="r"><code># Calculate the percentage of tweets that contain &quot;plot&quot;
+<pre class="r"><code># Calculate the percentage of tweets that contain &quot;plot.&quot;
 round(((sum(str_detect(twitstats$text, &quot;plot&quot;))) / nrow(twitstats)) * 100, 2)</code></pre>
 <pre><code>## [1] 6.28</code></pre>
-<pre class="r"><code># Calculate the percentage of tweets that contain &quot;plot&quot; as a whole word
+<pre class="r"><code># Calculate the percentage of tweets that contain &quot;plot&quot; as a whole word.
 round(((sum(str_detect(twitstats$text, &quot;\\bplot\\b&quot;))) / nrow(twitstats)) * 100, 2)</code></pre>
 <pre><code>## [1] 0.99</code></pre>
 <div id="of-the-429513-tweets-in-the-2019-tidytuesday-week-1-dataset-6.28-of-tweets-contained-the-word-plot-in-some-variation-e.g.-plot-plots-plotting-ggplot-and-0.99-contained-plot-as-a-distinct-whole-word." class="section level5">

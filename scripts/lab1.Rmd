@@ -22,6 +22,7 @@ twitstats <- readRDS(here("data", "rstats_tweets.rds")) %>%
 ```
 
 ### 1. Initial exploration  
+#### Create histograms and density plots of `display_text_width`. Try at least four different binning methods and select what you think best represents the data for each. Provide a brief justification for your decision.
 ```{r initial-exploration}
 #ggplot(twitstats, aes(x = display_text_width)) +
 #	geom_histogram(fill = "#56B4E9",
@@ -65,13 +66,13 @@ ggplot(twitstats, aes(x = display_text_width, y = is_quote)) +
 #### Search the `text` column for the word “plot.” 
 (Note I played around with different functions and also counting tweets containing "plot" vs. all instances of "plot.")
 ```{r search-plot, eval = FALSE}
-# stringr logical - returns T/F. Evaluates whether the word "plot" is in the tweet. 
+# stringr logical - returns T/F for each row. Evaluates whether the word "plot" is in the tweet. 
 str_detect(twitstats$text, "plot")
 
-# stringr logical - returns T/F. Evaluates whether the word "plot" as a whole word is in the tweet. 
+# stringr logical - returns T/F for each row (tweet). Evaluates whether the word "plot" as a whole word is in the tweet. 
 str_detect(twitstats$text, "\\bplot\\b")
 
-# Base R logical - returns T/F. Evaluates whether the word "plot" is in the tweet.
+# Base R logical - returns T/F for each row (tweet). Evaluates whether the word "plot" is in the tweet.
 grepl("plot", twitstats$text)
 
 # Base R - returns vector of row #s where tweet contains "plot." 
@@ -80,10 +81,10 @@ grep("plot", twitstats$text)
 # Base R - returns vector of row #s where tweet contains "plot" as a whole word.  
 grep("\\bplot\\b", twitstats$text)
 
-# Returns the number of instances of "plot" within each tweet. 
+# For each row (tweet), returns the number of instances of "plot." 
 str_count(twitstats$text, "plot")
 
-# Returns the number of instances of "plot" as a whole word within each tweet. 
+# For each row (tweet), returns the number of instances of "plot" as a whole word.
 str_count(twitstats$text, "\\bplot\\b")
 ```
 
@@ -103,14 +104,14 @@ sum(str_count(twitstats$text, "\\bplot\\b"))
 
 #### Report the proportion of posts containing this word.
 ```{r proportion-plot}
-# Calculate the number of rows (i.e., tweets) in the dataset
+# Calculate the number of rows (i.e., tweets) in the dataset.
 twitstats %>% 
   nrow()
 
-# Calculate the percentage of tweets that contain "plot"
+# Calculate the percentage of tweets that contain "plot."
 round(((sum(str_detect(twitstats$text, "plot"))) / nrow(twitstats)) * 100, 2)
 
-# Calculate the percentage of tweets that contain "plot" as a whole word
+# Calculate the percentage of tweets that contain "plot" as a whole word.
 round(((sum(str_detect(twitstats$text, "\\bplot\\b"))) / nrow(twitstats)) * 100, 2)
 ```
 
