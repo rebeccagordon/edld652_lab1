@@ -1,42 +1,45 @@
 ---
 title: "Lab 1"
-output: html_document
+date: January 15, 2022
 author: Amy, Ksenia, and Rebecca
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE)
 
 library(rio)
 library(tidyverse)
 library(here)
 library(ggridges)
-
 ```
-```{r read-in-data}
+
+```{r read-in-data, echo = FALSE}
 twitstats <- readRDS(here("data", "rstats_tweets.rds")) %>% 
 	as.data.frame()
-twitstats
+#twitstats
 ```
 
+### 1. Initial exploration  
 ```{r initial-exploration}
 #ggplot(twitstats, aes(x = display_text_width)) +
-	geom_histogram(fill = "#56B4E9",
-								 color = "white",
-								 alpha = 0.9,
-								 bins = 50)
+#	geom_histogram(fill = "#56B4E9",
+#								 color = "white",
+#								 alpha = 0.9,
+#								 bins = 50)
 
 #ggplot(twitstats, aes(x = display_text_width)) +
-	geom_histogram(fill = "#56B4E9",
-								 color = "white",
-								 alpha = 0.9,
-								 bins = 35)
+#	geom_histogram(fill = "#56B4E9",
+#								 color = "white",
+#								 alpha = 0.9,
+#								 bins = 35)
 
 #ggplot(twitstats, aes(x = display_text_width)) +
-	geom_histogram(fill = "#56B4E9",
-								 color = "white",
-								 alpha = 0.9,
-								 bins = 25)
+#	geom_histogram(fill = "#56B4E9",
+#								 color = "white",
+#								 alpha = 0.9,
+#								 bins = 25)
 
 ggplot(twitstats, aes(x = display_text_width)) +
 	geom_histogram(fill = "#56B4E9",
@@ -54,6 +57,72 @@ ggplot(twitstats, aes(x = display_text_width, y = is_quote)) +
 																fill = "#A9E5C5")
 
 ```
-## Binning of 5 is the best for the histogram because it shows the distribution of the data with the fewest bars which makes it easier to understand.
 
+##### Binning of 5 is the best for the histogram because it shows the distribution of the data with the fewest bars which makes it easier to understand.
+
+### 2. Look for "plot"  
+
+#### Search the `text` column for the word “plot.” 
+(Note I played around with different functions and also counting tweets containing "plot" vs. all instances of "plot.")
+```{r search-plot, eval = FALSE}
+# stringr logical - returns T/F. Evaluates whether the word "plot" is in the tweet. 
+str_detect(twitstats$text, "plot")
+
+# stringr logical - returns T/F. Evaluates whether the word "plot" as a whole word is in the tweet. 
+str_detect(twitstats$text, "\\bplot\\b")
+
+# Base R logical - returns T/F. Evaluates whether the word "plot" is in the tweet.
+grepl("plot", twitstats$text)
+
+# Base R - returns vector of row #s where tweet contains "plot." 
+grep("plot", twitstats$text)
+
+# Base R - returns vector of row #s where tweet contains "plot" as a whole word.  
+grep("\\bplot\\b", twitstats$text)
+
+# Returns the number of instances of "plot" within each tweet. 
+str_count(twitstats$text, "plot")
+
+# Returns the number of instances of "plot" as a whole word within each tweet. 
+str_count(twitstats$text, "\\bplot\\b")
+```
+
+```{r calculate-plot}
+# Returns the number of tweets containing "plot."
+sum(str_detect(twitstats$text, "plot"))
+
+# Returns the number of tweets containing "plot" as a whole word. 
+sum(str_detect(twitstats$text, "\\bplot\\b"))
+
+# Returns the total number of instances of variations of "plot" across all tweets. 
+sum(str_count(twitstats$text, "plot"))
+
+# Returns the total number of instances of "plot" as a whole word across all tweets.
+sum(str_count(twitstats$text, "\\bplot\\b"))
+```
+
+#### Report the proportion of posts containing this word.
+```{r proportion-plot}
+# Calculate the number of rows (i.e., tweets) in the dataset
+twitstats %>% 
+  nrow()
+
+# Calculate the percentage of tweets that contain "plot"
+round(((sum(str_detect(twitstats$text, "plot"))) / nrow(twitstats)) * 100, 2)
+
+# Calculate the percentage of tweets that contain "plot" as a whole word
+round(((sum(str_detect(twitstats$text, "\\bplot\\b"))) / nrow(twitstats)) * 100, 2)
+```
+
+##### Of the `r format(nrow(twitstats), big.mark=",",scientific=FALSE)` tweets in the 2019 #tidytuesday Week 1 dataset, `r round(((sum(str_detect(twitstats$text, "plot"))) / nrow(twitstats)) * 100, 2)`% of tweets contained the word "plot" in some variation (e.g., plot, plots, plotting, ggplot) and `r round(((sum(str_detect(twitstats$text, "\\bplot\\b"))) / nrow(twitstats)) * 100, 2)`% contained "plot" as a distinct whole word.  
+
+### 3. Plot rough draft
+```{r plot-draft}
+  
+```
+
+### 4. Stylized Plot
+```{r plot-stylized}
+
+```
 
