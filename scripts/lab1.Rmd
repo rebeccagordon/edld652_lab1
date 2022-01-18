@@ -176,8 +176,8 @@ stylized.plot +
   panel.grid.major.y = element_blank(), 
   panel.grid.minor.x = element_blank(), 
   panel.grid.minor.y = element_blank(),
-  plot.title = element_text(hjust = -0.6),
-  plot.subtitle = element_text(hjust = -0.44))+ 
+  plot.title = element_text(hjust = -0.15),
+  plot.subtitle = element_text(hjust = -0.12))+ 
   text_settings
 
 ```
