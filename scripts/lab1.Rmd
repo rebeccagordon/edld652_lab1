@@ -14,6 +14,7 @@ library(tidyverse)
 library(here)
 library(ggridges)
 library(tidytext)
+library(colorspace)
 ```
 
 ```{r read-in-data, echo = FALSE}
@@ -153,12 +154,14 @@ stylized.plot <- twitstats_contentwords %>%
   slice(1:15) %>% 
   ggplot(aes(n, word)) +
   geom_col(fill = "cornflowerblue",
-           color = "white",
-           alpha = 0.8) +
+           color = "#6F94E7",
+           alpha = 0.9) +
   labs(title    = "Word frequencies in posts",
        subtitle = "Top 15 words displayed",
        x        = "Count",
-       y        = "Word")
+       y        = "Word",
+       caption = "Data from Mike Kearny, distributed via #tidytuesday")
+
 #changing the text sides
 text_settings <- 
   theme(plot.title = element_text(size = 20)) +
@@ -170,14 +173,14 @@ text_settings <-
 
 #removing all horizontal and minor vertical grids; changing the position of title & subtitle; printing the plot
 stylized.plot + 
-  theme_minimal()+
+  theme_minimal() +
   theme(panel.grid.major.x = element_line(size = 0.5, linetype = 'solid',
                                 colour = "gray"), 
   panel.grid.major.y = element_blank(), 
   panel.grid.minor.x = element_blank(), 
   panel.grid.minor.y = element_blank(),
   plot.title = element_text(hjust = -0.15),
-  plot.subtitle = element_text(hjust = -0.12))+ 
+  plot.subtitle = element_text(hjust = -0.12)) + 
   text_settings
 
 ```
