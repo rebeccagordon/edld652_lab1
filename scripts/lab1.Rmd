@@ -168,14 +168,16 @@ text_settings <-
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.text.y = element_text(size = 12)) 
 
-#removing all horizontal and minor vertical grids; printing the plot
+#removing all horizontal and minor vertical grids; changing the position of title & subtitle; printing the plot
 stylized.plot + 
   theme_minimal()+
   theme(panel.grid.major.x = element_line(size = 0.5, linetype = 'solid',
                                 colour = "gray"), 
   panel.grid.major.y = element_blank(), 
   panel.grid.minor.x = element_blank(), 
-  panel.grid.minor.y = element_blank())+ 
+  panel.grid.minor.y = element_blank(),
+  plot.title = element_text(hjust = -0.6),
+  plot.subtitle = element_text(hjust = -0.44))+ 
   text_settings
 
 ```
