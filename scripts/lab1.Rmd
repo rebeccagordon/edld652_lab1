@@ -145,6 +145,38 @@ twitstats_contentwords %>%
 
 ### 4. Stylized Plot
 ```{r plot-stylized}
+#creating the stylized plot
+stylized.plot <- twitstats_contentwords %>% 
+  anti_join(stop_words) %>%
+  count(word, sort = TRUE) %>% 
+  mutate(word = fct_reorder(word, n)) %>% 
+  slice(1:15) %>% 
+  ggplot(aes(n, word)) +
+  geom_col(fill = "cornflowerblue",
+           color = "white",
+           alpha = 0.8) +
+  labs(title    = "Word frequencies in posts",
+       subtitle = "Top 15 words displayed",
+       x        = "Count",
+       y        = "Word")
+#changing the text sides
+text_settings <- 
+  theme(plot.title = element_text(size = 20)) +
+  theme(plot.subtitle = element_text(size = 16)) +
+  theme(axis.title.x = element_text(size = 16)) +
+  theme(axis.title.y = element_text(size = 16)) +
+  theme(axis.text.x = element_text(size = 12)) +
+  theme(axis.text.y = element_text(size = 12)) 
+
+#removing all horizontal and minor vertical grids; printing the plot
+stylized.plot + 
+  theme_minimal()+
+  theme(panel.grid.major.x = element_line(size = 0.5, linetype = 'solid',
+                                colour = "gray"), 
+  panel.grid.major.y = element_blank(), 
+  panel.grid.minor.x = element_blank(), 
+  panel.grid.minor.y = element_blank())+ 
+  text_settings
 
 ```
 
