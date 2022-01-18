@@ -1,6 +1,6 @@
 ---
 title: "Lab 1"
-date: January 15, 2022
+date: January 18, 2022
 author: Amy, Ksenia, and Rebecca
 output: html_document
 ---
@@ -14,7 +14,6 @@ library(tidyverse)
 library(here)
 library(ggridges)
 library(tidytext)
-library(colorspace)
 ```
 
 ```{r read-in-data, echo = FALSE}
