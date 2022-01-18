@@ -13,6 +13,7 @@ library(rio)
 library(tidyverse)
 library(here)
 library(ggridges)
+library(tidytext)
 ```
 
 ```{r read-in-data, echo = FALSE}
@@ -119,7 +120,27 @@ round(((sum(str_detect(twitstats$text, "\\bplot\\b"))) / nrow(twitstats)) * 100,
 
 ### 3. Plot rough draft
 ```{r plot-draft}
-  
+#Structuring the tweets data by turning it into a simple data frame
+twitstats_df <- tibble(
+  paragraph = seq_along(twitstats$text),
+  description = twitstats$text
+)
+#Breaking it into individual words
+twitstats_words <- twitstats_df %>% 
+  unnest_tokens(word, description)
+
+#Removing "t.co", "https", "http", "rt", "rstats"
+twitstats_contentwords <- subset (twitstats_words, !(twitstats_words$word %in% c("t.co", "https", "http", "rt", "rstats")))
+
+#Plotting the 15 most common words represented in the posts excluding stop words
+twitstats_contentwords %>% 
+  anti_join(stop_words) %>%
+  count(word, sort = TRUE) %>% 
+  mutate(word = fct_reorder(word, n)) %>% 
+  slice(1:15) %>% 
+  ggplot(aes(n, word)) +
+  geom_col()
+    
 ```
 
 ### 4. Stylized Plot
