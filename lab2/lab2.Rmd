@@ -1,0 +1,86 @@
+---
+title: "Lab 2"
+date: January 30, 2022
+author: Amy, Ksenia, and Rebecca
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE)
+
+#install.packages("fivethirtyeight")
+#remotes::install_github("fivethirtyeightdata/fivethirtyeightdata")
+library(fivethirtyeight)
+library(fivethirtyeightdata)
+library(tidyverse)
+library(lubridate)
+
+```
+
+```{r google-trends}
+trends <- google_trends
+
+##1.Start with the google trends data.
+#Visualize the change in trends for each hurricane over time in one plot with three scales. Map color to a discrete scale.
+
+trends$date <- ymd(trends$date)
+
+trends_pivot <- trends %>% 
+	pivot_longer(
+		cols = starts_with("hurricane"),
+		names_to = c("hurricane", "name"),
+		values_to = "n",
+		names_sep = "_",
+		values_drop_na = TRUE,
+		names_repair = "check_unique",
+		names_prefix = "hurricane_"
+	) 
+
+ggplot(trends_pivot,aes(date, n)) +
+	geom_line(aes(color = hurricane), alpha = .5, size = 2) +
+	scale_color_brewer(palette = "Dark2") +
+	theme_minimal() 
+
+ggplot(trends_pivot,aes(date, n)) +
+	geom_line(aes(color = hurricane), alpha = .5, size = 2) +
+	scale_color_brewer(palette = "Dark1") +
+	theme_minimal() 
+
+ggplot(trends_pivot,aes(date, n)) +	
+	geom_line(aes(color = hurricane), alpha = .5, size = 2) +
+	scale_color_discrete() +
+	theme_minimal()
+
+#Visualize the trends again, this time with solid shapes (if your first plot was already solid shapes, use lines). Hint, geom_area can be difficult to work with if you have a grouping factor. Try geom_ribbon instead.
+
+ggplot(trends_pivot,aes(x=date, y=n )) +
+	geom_ribbon(aes(x=date, y=n, ymin=n - 1, ymax=n +1, fill = hurricane, color = hurricane, linetype = hurricane)) +
+	geom_area(aes(fill = hurricane)) +
+	theme_minimal()
+	
+
+
+#Visualize the same relation, but change the scales so color is mapped to a continuous scale (the other scales should be discrete).
+
+ggplot(trends_pivot, aes(date, hurricane)) +
+	geom_area(aes(fill = n, color = n)) +
+	theme_minimal() 
+	
+	
+	scale_x_date(expand = c(0, 0)) +
+	scale_y_continuous(expand = c(0, 0)) 
+
+#Create a data frame (using tibble() or data.frame()) that includes the dates that each hurricane made landfall. Annotate one of your first two plots to include these reference points with vertical lines (Hint: use geom_vline(), specifying the data source for this layer as this new dataset). You do not have to include text annotations - just the vertical lines, but if you would like to try, look into geom_text() or geom_label(). 
+
+landfall <- tibble(Hurricane = c("Harvey", "Irma", "Jose", "Maria"),
+									  (Date = c("August 25, 2017", "September 10, 2017", "Did not make landfall", "September 20, 2017" )))
+
+
+ggplot(landfall, aes(Hurricane, Date)) +
+	geom_point() +
+	geom_vline(xintercept = 1:4)
+
+
+```
+
