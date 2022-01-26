@@ -63,13 +63,9 @@ ggplot(trends_pivot,aes(x=date, y=n )) +
 
 #Visualize the same relation, but change the scales so color is mapped to a continuous scale (the other scales should be discrete).
 
-ggplot(trends_pivot, aes(date, hurricane)) +
-	geom_area(aes(fill = n, color = n)) +
-	theme_minimal() 
-	
-	
-	scale_x_date(expand = c(0, 0)) +
-	scale_y_continuous(expand = c(0, 0)) 
+ggplot(trends_pivot, aes(x=date, y=hurricane, fill = n)) +
+	geom_tile() +
+	scale_fill_continuous(type = "gradient") 
 
 #Create a data frame (using tibble() or data.frame()) that includes the dates that each hurricane made landfall. Annotate one of your first two plots to include these reference points with vertical lines (Hint: use geom_vline(), specifying the data source for this layer as this new dataset). You do not have to include text annotations - just the vertical lines, but if you would like to try, look into geom_text() or geom_label(). 
 
